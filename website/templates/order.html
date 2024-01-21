@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block title %}Orden{% endblock %} {% block content %}
+<div class="container">
+    <h3 align="center">Orden #</h3>
+    <br />
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="/orders" type="button" class="btn btn-primary" style="display: block;" id="Nueva">
+                Guardar Orden
+            </a>  
+            <a type="button" class="btn btn-primary" style="display: block;" id="Nueva">
+                Nuevo Producto
+            </a>  
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="Products" BORDER="5" WIDTH="80%" CELLPADDING="4" CELLSPACING="500" class="table table-bordered table-striped" style="display: block;">
+                    <thead  class="centered-header">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Laboratorio</th>
+                            <th>Cantidad</th>
+                            <th>Precio Neto</th>
+                            <th>Eliminar</th>
+                            <th>Guardar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+<script
+      type="text/javascript"
+      src="{{ url_for('static', filename='orders.js') }}"
+> </script>
+<link rel="stylesheet" href="{{ url_for('static', filename='orders.css') }}">
+{% endblock %}

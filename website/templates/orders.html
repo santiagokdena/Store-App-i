@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block title %}Ordenes{% endblock %} {% block content %}
+<div class="container">
+    <h3 align="center">Ordenes</h3>
+    <br />
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="/order" type="button" class="btn btn-primary" style="display: block;" id="Nueva">
+                Nueva Orden
+            </a>  
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="Orden" BORDER="5" WIDTH="80%" CELLPADDING="4" CELLSPACING="500" class="table table-bordered table-striped" style="display: block;">
+                    <thead  class="centered-header">
+                        <tr>
+                            <th>Número de Orden</th>
+                            <th>Fecha</th>
+                            <th>Precio Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%if orders%}
+                            {% for row in orders%}
+                            <tr>
+                                <td data-name="number" class="cb" data-type="text" data-pk="{{row.id}}">{{row.id}}</td>
+                                <td data-name="date" class="cb" data-type="text" data-pk="{{row.id}}">{{row.date}}</td>
+                            </tr>
+                            {%endfor%}
+                        {%endif%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+<script
+      type="text/javascript"
+      src="{{ url_for('static', filename='orders.js') }}"
+> </script>
+<link rel="stylesheet" href="{{ url_for('static', filename='orders.css') }}">
+{% endblock %}

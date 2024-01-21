@@ -1,0 +1,192 @@
+{% extends "base.html" %} {% block title %}Inventorio{% endblock %} {% block content%}
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+    var dataTable = $('#sample_data').DataTable();
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.name',
+        url:'/inventory/updateproduct',
+        title:'Nombre',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+ 
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.lab',
+        url:'/inventory/updateproduct',
+        title:'Laboratorio',
+        type:'POST',
+        source:[{value:"technoquimicas"},{value:"MK"},{value:"BAYER"}],
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+ 
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.quant',
+        url:'/inventory/updateproduct',
+        title:'Cantidad',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+    $('#sample_data').editable({
+      container:'body',
+      selector:'td.price',
+      url:'/inventory/updateproduct',
+      title:'Precio',
+      type:'POST',
+      validate:function(value){
+          if($.trim(value) == '')
+          {
+              return 'This field is required';
+          }
+      }
+  });
+
+    $('#sample_data').editable({
+      container:'body',
+      selector:'td.util',
+      url:'/inventory/updateproduct',
+      title:'Utilidad',
+      type:'POST',
+      validate:function(value){
+          if($.trim(value) == '')
+          {
+              return 'This field is required';
+          }
+      }
+  });
+
+}); 
+function del(ID, title){
+    if (confirm("Are you sure you want to delete '" + title + "'")){
+      window.location.href = '/delete/' + ID;
+        
+    }
+}
+</script>
+<style type="text/css" scoped>
+  .errors {
+    color: #e74c3c;
+    visibility: visible;
+  }
+</style>
+{% macro render_input(field,txt,showErrors="true") %}
+<div class="form-group">
+  {{field.label(class="col-form-label")}}
+  {{field(type="text",class="form-control")}}
+  {%if showErrors=="true" and field.errors %}
+  {% for error in field.errors %}  
+    <small class="errors">
+      {{error}}
+    </small>
+    <script>
+      var txtbox = document.querySelector("div.form-group.main form-control");
+      try{
+      txtbox.style.border="solid red";}
+      catch(error){
+      }
+    </script>
+  {%endfor%}
+  {%endif%}
+</div>
+{% endmacro %}
+        <div class="container">
+            <h3 align="center">Inventario</h3>
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Agregar nuevo producto
+                </button>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="sample_data " class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Laboratorio</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio de compra</th>
+                                    <th>% Utilidad</th>
+                                    <th>Precio Neto</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in products%}
+                                <tr>
+                                  <td data-name="id" class="cb" data-type="text" data-pk="{{row.id}}">{{row.cb}}</td>
+                                  <td data-name="name" class="name" data-type="text" data-pk="{{row.id}}">{{row.name}}</td>
+                                  <td data-name="lab" class="lab" data-type="select" data-pk="{{row.id}}">{{row.lab}}</td>
+                                  <td data-name="quant" class="quant" data-type="text" data-pk="{{row.id}}">{{row.quant}}</td>
+                                  <td data-name="price" class="price" data-type="text" data-pk="{{row.id}}">{{row.price}}</td>
+                                  <td data-name="util" class="util" data-type="text" data-pk="{{row.id}}">{{row.util}}</td>
+                                  <td data-name="nprice" class="nprice" data-type="text" data-pk="{{row.id}}">{{row.price*(row.util+100)/100}}</td>
+                                  <td>
+                                    <a href="javascript:del('{{row.cb}}','{{row.name}}')" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <form name="sampleForm" method="post">
+            {%if form.errors%}
+              <script>
+                $(document).ready(function(){
+                    $("#exampleModal").modal('show');
+                });
+              </script>
+            {%endif%}
+            {{render_input(form.cb)}}
+            {{render_input(form.name)}}
+            {{render_input(form.lab)}}
+            {{render_input(form.price)}}
+            {{render_input(form.util)}}
+            {{render_input(form.quant)}}
+            {{render_input(form.form)}}
+            {{render_input(form.conc)}}
+
+            <button class="btn btn-primary">Submit</button>
+          </div>
+          </p>
+        </form>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+        <br />
+        <br />
+{% endblock%}
