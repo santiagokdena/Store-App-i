@@ -3,6 +3,10 @@ let input_name;
 let input_lab;
 let input_id;
 let product; //productordered
+let order;
+var path=window.location.pathname;
+let order_id=path.match(/\/(\d+)(?:\?.*)?$/)[1];
+
 
 function uncomplete_fields(row){
   var forms=row.getElementsByTagName("form");
@@ -44,7 +48,7 @@ function addRow() {
     alert("Debe completar los campos vacios");
   }
   else{
-    var table = document.getElementById("Product").getElementsByTagName("tbody")[0];
+    var table = document.getElementById("Products").getElementsByTagName("tbody")[0];
     row = table.insertRow(-1);
     
     row.innerHTML=`
@@ -90,7 +94,7 @@ function addRow() {
     </td>
     <td>
       <div>
-        <button type= class="btn btn-outline-success" onclick='save(event)'><i class="fa-solid fa-floppy-disk"></i></a>
+        <button class="btn btn-outline-success" onclick='save()'><i class="fa-solid fa-floppy-disk"></i></a>
       </div>
     </td>
     
@@ -213,23 +217,24 @@ function onButtonClick(e){
 function save(){
   var elements= row.querySelectorAll("td form div input")
   if(!uncomplete_fields(row)){
-    var list =[];
     console.log(elements);
     elements.forEach(element=>{
       element.readOnly=true;
     });
-  }
-
-}
+    order
+    }
+  } 
 function send(){
-  fetch('/save', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json' // Configura el tipo de medio como JSON
-    },
-    body: JSON.stringify(product) // Convierte el objeto a JSON
-    }).then(function (response) { //POST
-        return response.json();
-    });
+  var path = window.location.pathname;
+    fetch('/saveproduct/'+order_id, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json' // Configura el tipo de medio como JSON
+      },
+      body: JSON.stringify(product) // Convierte el objeto a JSON
+      }).then(function (response) { //POST
+          return response.json();
+      });
 }
+
 

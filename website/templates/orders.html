@@ -4,7 +4,7 @@
     <br />
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a href="/order" type="button" class="btn btn-primary" style="display: block;" id="Nueva">
+            <a href="/order/0" type="button" style="display: block;">
                 Nueva Orden
             </a>  
         </div>
@@ -16,19 +16,30 @@
                             <th>Número de Orden</th>
                             <th>Fecha</th>
                             <th>Precio Total</th>
+                            <th>Lista de Productos</th>
                         </tr>
                     </thead>
                     <tbody>
                         {%if orders%}
                             {% for row in orders%}
-                            <tr>
-                                <td data-name="number" class="cb" data-type="text" data-pk="{{row.id}}">{{row.id}}</td>
-                                <td data-name="date" class="cb" data-type="text" data-pk="{{row.id}}">{{row.date}}</td>
+                            <tr class="clickable-order" data-href="/order/{{row.id}}">
+                                <td data-type="text" data-pk="{{row.id}}">{{row.id}}</td>
+                                <td data-type="text" data-pk="{{row.date}}">{{row.date}}</td>
+                                <td data-type="text" data-pk="{{row.pricee}}">{{row.price}}</td>
+                                <td data-type="text">
+                                    <a href="javascript:order('{{row.id}}')"><i class="fa fa-list"></i></a>
+                                </td>
                             </tr>
                             {%endfor%}
                         {%endif%}
                     </tbody>
                 </table>
+                <script>
+                    function order(id){
+                        if(id){}
+                        window.location.href='/order/'+id;
+                    }
+                </script>
             </div>
         </div>
     </div>

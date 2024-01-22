@@ -36,6 +36,8 @@ def delete_register(id):
 @views.route('/orders',methods=['GET','POST']) 
 @login_required
 def orders():
+    #si hay un POST, entonces que esta funcion  sepa. Poner un if(request==GET)
+    
     orders=Order.objects
     return render_template("orders.html",user=current_user,orders=orders)
 

@@ -1,7 +1,9 @@
 from .__init__ import db
 from flask_login import UserMixin
 from bson.objectid import ObjectId
-import mongoengine as me
+import mongoengine as me 
+from flask_mongoengine import MongoEngine
+    
     
 class Product(db.Document):
     name=db.StringField(required=True)
@@ -29,6 +31,5 @@ class Order(db.Document):
     id=db.SequenceField(primary_key=True)
     date=db.DateTimeField()
     products=db.ListField(me.EmbeddedDocumentField(ProductOrdered))
-    
+    price=db.FloatField(required=True,min_value=0)
 
-    
